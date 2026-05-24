@@ -1,15 +1,20 @@
 <div align="center">
 
-# SAW 声表面波谐振器有限元仿真
+# SAW Resonator Finite-Element Simulation
 
-**MATLAB + Gmsh 压电耦合有限元求解器**
-面向声表面波（SAW）谐振器与滤波器的频域仿真及器件设计
+**A MATLAB + Gmsh piezoelectric finite-element solver**
+for the frequency-domain simulation and design of Surface Acoustic Wave (SAW) resonators and filters
+
+**English** · [简体中文](README.zh-CN.md)
 
 ![MATLAB](https://img.shields.io/badge/MATLAB-R2023a-EE6B27?logo=mathworks&logoColor=white)
 ![Gmsh](https://img.shields.io/badge/Mesh-Gmsh-4B8BBE)
 ![Python](https://img.shields.io/badge/Postprocess-Python%20%2F%20matplotlib-3776AB?logo=python&logoColor=white)
 ![Method](https://img.shields.io/badge/Method-Piezoelectric%20FEM%20%2B%20PML-555555)
-![Cases](https://img.shields.io/badge/算例库-17%20models-2E8B57)
+![Cases](https://img.shields.io/badge/Case%20library-17%20models-2E8B57)
+[![Demo](https://img.shields.io/badge/Demo-2D%20TCSAW-FF6F00)](2DTCSAW/)
+[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+[![Changelog](https://img.shields.io/badge/Changelog-keepachangelog-E05735)](CHANGELOG.md)
 
 Author · [Shaoqing Duan](https://github.com/Duane245)
 
@@ -17,172 +22,173 @@ Author · [Shaoqing Duan](https://github.com/Duane245)
 
 ---
 
-## 📑 目录
+## 📑 Contents
 
-- [项目简介](#intro)
-- [核心能力](#capability)
-- [技术路线](#method)
-- [算例详解](#showcase)
-- [模型库](#library) · [SP-2D](#sp2d) · [SP-2.5D](#sp25d) · [FP-2D](#fp2d) · [FP-2.5D](#fp25d)
-- [技术栈](#stack)
-- [关于本项目](#about)
+- [Overview](#intro)
+- [Capabilities](#capability)
+- [Methodology](#method)
+- [Worked Example](#showcase)
+- [Model Library](#library) · [SP-2D](#sp2d) · [SP-2.5D](#sp25d) · [FP-2D](#fp2d) · [FP-2.5D](#fp25d)
+- [Tech Stack](#stack)
+- [Code Demo](#demo)
+- [Contact & Collaboration](#contact)
 
 ---
 
 <a id="intro"></a>
 
-## 📖 项目简介
+## 📖 Overview
 
-声表面波（Surface Acoustic Wave, SAW）谐振器是射频前端滤波器的核心元件，广泛应用于移动通信、物联网与传感等领域。本项目实现了一套压电耦合有限元（FEM）求解器，涵盖压电本构与晶体张量、复坐标拉伸 PML、有限元向量化组装、`parfor` 并行扫频与 Y11 后处理，用于 SAW 谐振器的频域（谐响应）仿真。
+Surface Acoustic Wave (SAW) resonators are the core building block of RF front-end filters, widely deployed in mobile communications, IoT and sensing. This project implements a piezoelectric finite-element (FEM) solver covering the piezoelectric constitutive law and crystal tensor handling, complex-coordinate-stretched PML, vectorized FE assembly, `parfor` parallel frequency sweeps and Y11 post-processing — for the frequency-domain (harmonic) analysis of SAW resonators.
 
-求解器在叉指换能器（IDT）激励下，联立求解结构力学位移场 `u` 与静电电势场 `φ` 的压电耦合方程，在指定频段内逐频点扫描，最终给出器件的 **Y11 导纳特性曲线** —— 这是评价 SAW 谐振器 / 滤波器性能（谐振频率、机电耦合系数、品质因数）的关键指标。
+Under interdigital-transducer (IDT) excitation, the solver jointly solves the structural-mechanics displacement field `u` and the electrostatic potential field `φ` of the piezoelectric coupling equations, sweeps over a specified band, and outputs the **Y11 admittance curve** of the device — the key indicator used to evaluate SAW resonator / filter performance (resonant frequency, electromechanical coupling coefficient, quality factor).
 
 | | |
 |---|---|
-| 🧩 **压电多物理耦合** | 位移–电势全耦合，支持铌酸锂、钽酸锂等各向异性压电单晶 |
-| 🌊 **完美匹配层（PML）** | 复数坐标拉伸吸收边界，精确模拟半无限大衬底，抑制体波反射 |
-| 📐 **参数化建模** | 基于 Gmsh 的参数化网格，几何尺寸一键调整 |
-| ⚡ **并行扫频** | 频域扫描采用 `parfor` 多核并行（801 频点二维算例约 8 秒） |
+| 🧩 **Piezoelectric multiphysics** | Fully coupled displacement–potential analysis with anisotropic piezoelectric single crystals such as LiNbO₃ and LiTaO₃ |
+| 🌊 **Perfectly Matched Layer (PML)** | Complex coordinate stretching absorbs outgoing waves and accurately mimics a semi-infinite substrate, suppressing bulk-wave reflection |
+| 📐 **Parametric modelling** | Parametric Gmsh meshes — all key geometric dimensions are scripted parameters and can be adjusted in a single edit |
+| ⚡ **Parallel frequency sweep** | `parfor` multi-core parallelism (801-point 2-D case ≈ 8 s) |
 
 ---
 
 <a id="capability"></a>
 
-## 🎯 核心能力
+## 🎯 Capabilities
 
-| 维度 | 支持范围 |
+| Dimension | Supported scope |
 |---|---|
-| **空间维度** | 2D / 2.5D（9 节点四边形 Q9、27 节点六面体 Hex27 高阶单元）|
-| **器件模型** | 单周期单元模型（Bloch 周期边界）、有限器件模型（自由 / 悬浮电势边界）|
-| **叠层结构** | 单层至多层（1–4 层）压电 / 介质叠层 |
-| **特殊工艺** | 温度补偿型 SAW（TC-SAW），含 SiO₂ / Si₃N₄ 补偿层 |
-| **分析模式** | 平面应变分析、2.5D 模态扩展分析 |
-| **材料体系** | 任意切型各向异性压电单晶（欧拉角旋转）+ 金属电极 |
-| **计算规模** | 2D ~10⁴ 自由度，2.5D 最大达 **百万级**自由度 |
+| **Spatial dimension** | 2D / 2.5D (9-node quadrilateral Q9, 27-node hexahedral Hex27 high-order elements) |
+| **Device model** | Single-period unit cell (Bloch periodic BC); finite device (free / floating-potential BC) |
+| **Stack** | Single up to multilayer (1–4 layers) of piezoelectric / dielectric stacks |
+| **Special process** | Temperature-compensated SAW (TC-SAW) with SiO₂ / Si₃N₄ compensation layers |
+| **Analysis mode** | Plane-strain analysis; 2.5D mode-extension analysis |
+| **Materials** | Arbitrary-cut anisotropic piezoelectric single crystals (Euler-angle rotation) + metal electrodes |
+| **Problem size** | 2D ~10⁴ DOFs; 2.5D up to **~10⁶ DOFs** |
 
 ---
 
 <a id="method"></a>
 
-## 🔬 技术路线
+## 🔬 Methodology
 
-### ① 压电耦合物理模型
+### ① Piezoelectric coupling model
 
-声表面波器件中，机械振动与电场通过**压电效应**强耦合。求解器在频域内联立求解**结构力学位移场 `u`** 与**静电电势场 `φ`** —— 二者经压电本构关系耦合，材料属性由密度 `ρ`、弹性刚度张量 `C`、压电耦合张量 `e`、介电常数张量 `ε` 共同描述。铌酸锂（LiNbO₃）、钽酸锂（LiTaO₃）等各向异性压电单晶的晶体张量经**欧拉角旋转**变换到器件坐标系，以匹配实际晶圆切型。
+In a SAW device, mechanical vibration is strongly coupled to the electric field through the **piezoelectric effect**. The solver works in the frequency domain and jointly solves for the **structural displacement field `u`** and the **electrostatic potential field `φ`** — the two are coupled through the piezoelectric constitutive law, with material properties described by the density `ρ`, elastic stiffness tensor `C`, piezoelectric coupling tensor `e` and permittivity tensor `ε`. Anisotropic piezoelectric single crystals such as LiNbO₃ and LiTaO₃ have their crystal tensors **rotated by Euler angles** from the crystallographic frame into the device frame to match the actual wafer cut.
 
-### ② 参数化网格生成
+### ② Parametric mesh generation
 
-采用 **Gmsh** 进行参数化几何建模与网格剖分。叉指周期（pitch）、声波波长、电极厚度、金属化比、PML 厚度、网格离散尺寸等关键尺寸均为脚本参数，可快速生成不同设计的网格。网格按物理组标签自动区分压电体、电极、功能衬层、PML 区域与各类边界。
+Geometry and meshing are driven by **Gmsh**. The IDT pitch, acoustic wavelength, electrode thickness, metallization ratio, PML thickness and mesh seeding are all scripted parameters, so a new design can be remeshed in a single edit. Mesh entities are tagged into physical groups so that the piezoelectric body, electrodes, functional sublayers, PML regions and the various boundaries are picked up automatically.
 
 <div align="center">
 <img src="docs/images/mesh.png" width="300"><br>
-<sub><b>图 1</b> · SAW 谐振器周期单元的有限元网格 —— 按材料分区显示压电衬底、叉指电极（Al）与底部 PML 吸收层</sub>
+<sub><b>Fig. 1</b> · Finite-element mesh of a SAW resonator periodic cell — coloured by material to show the piezoelectric substrate, IDT electrodes (Al) and bottom PML absorber</sub>
 </div>
 
-### ③ 有限元离散与 PML 吸收边界
+### ③ FE discretization and PML absorbing boundary
 
-计算域以**高阶单元**离散 —— 2D 采用 9 节点四边形（Q9），2.5D 采用 27 节点六面体（Hex27）。自由度按 `[位移 u | 电势 φ]` 排列，组装质量矩阵 `M` 与刚度矩阵 `K`，形成位移–电势全耦合的有限元系统。
+The computational domain is discretized with **high-order elements** — 9-node quadrilaterals (Q9) in 2D and 27-node hexahedra (Hex27) in 2.5D. DOFs are ordered as `[displacement u | potential φ]`; the mass matrix `M` and stiffness matrix `K` are assembled to form the fully coupled displacement–potential FE system.
 
-**矩阵组装采用向量化（vectorized）实现。** 传统的逐单元 `for` 循环组装在 MATLAB 等解释型语言中存在两重劣势：一是解释器需对每个单元重复执行循环体，单元数越多累积开销越大；二是每个单元都以下标方式向稀疏矩阵累加（`K(dof,dof) = K(dof,dof) + Ke`），每次插入都会触发稀疏结构的重排与重新分配，对逾百万自由度的 2.5D 大模型尤为耗时。求解器改为**批量向量化组装**：一次性对全部单元并行计算雅可比、应变–位移矩阵与单元贡献，汇总为全局三元组 `(i, j, v)`，再以单次 `sparse()` 调用直接生成 `K / M`。这一方式消除了显式循环与逐次插入，使大规模算例的组装耗时大幅下降，是支撑百万级自由度仿真的关键。
+**Matrix assembly is implemented in a vectorized fashion.** A conventional element-by-element `for` loop is doubly penalised in an interpreted language such as MATLAB: first, the interpreter re-enters the loop body once per element, accumulating overhead with the element count; second, every element accumulates into the sparse matrix by indexed assignment (`K(dof,dof) = K(dof,dof) + Ke`), and each such insertion triggers a re-layout and re-allocation of the sparse structure — particularly costly for the 2.5D models that exceed one million DOFs. The solver replaces this with **batch vectorized assembly**: it computes the Jacobians, strain–displacement matrices and per-element contributions for all elements at once, aggregates them into global `(i, j, v)` triplets, then calls `sparse()` once to materialise `K / M`. By eliminating both the explicit loop and the repeated insertions, assembly time drops dramatically — this is the enabler that makes million-DOF simulations tractable.
 
-器件底部与周边布置**完美匹配层（PML）** —— 通过复数坐标拉伸，使向外辐射的体波在 PML 内沿设定衰减廓线迅速衰减，等效模拟半无限大衬底，从而准确捕捉能量泄漏与谐振品质因数。
+A **Perfectly Matched Layer (PML)** is placed at the bottom and the lateral sides of the device. Through complex coordinate stretching, outgoing bulk waves are attenuated along a prescribed profile inside the PML — equivalent to a semi-infinite substrate — so that energy leakage and the resonance Q-factor are captured accurately.
 
-### ④ 频域扫频求解
+### ④ Frequency-domain sweep
 
-求解器支持两类边界模型：**有限器件（FP）** 模拟有限尺寸的真实多指叉指器件，底部固定、两侧自由边界，直接对应实际芯片版图；**周期单元（SP）** 仅取一个周期单元、左右施加 Bloch 周期边界，以极小计算量等效无限长周期阵列。
+The solver supports two boundary-condition flavours: the **finite-device model (FP)** mimics a real, finite multi-finger IDT — fixed at the bottom, free on the sides — and corresponds directly to the actual chip layout; the **single-period model (SP)** takes a single unit cell with Bloch periodic boundaries on the left and right, equivalent to an infinitely long periodic array at a tiny fraction of the cost.
 
-在指定频段内逐频点求解：每个频率下构造动态矩阵、施加边界条件与叉指电极电压激励，求解压电耦合线性系统得到位移与电势，再由信号电极感应电荷 `Q` 计算导纳 `Y₁₁ = |iωQ/V|`。各频点相互独立，采用 `parfor` 多核并行加速。
+Within the specified band, every frequency point is solved in turn: a dynamic matrix is built, boundary conditions and the IDT-voltage excitation are applied, the coupled piezoelectric linear system is solved for displacement and potential, and the induced charge `Q` on the signal electrode is integrated to give the admittance `Y₁₁ = |iωQ/V|`. The frequency points are independent of one another and are evaluated in parallel via `parfor`.
 
 ```mermaid
 flowchart LR
-    A["① 材料参数<br/>晶体张量旋转"] --> B["② 网格导入<br/>区域识别"]
-    B --> C["③ 边界条件<br/>PML 初始化"]
-    C --> D["④ 向量化组装 K / M<br/>质量·刚度矩阵"]
-    D --> E["⑤ parfor 并行扫频<br/>解 (-ω²M+K)·x = f"]
-    E --> F["⑥ 提取电荷 Q<br/>导纳 Y = |iωQ/V|"]
+    A["① Material parameters<br/>Crystal-tensor rotation"] --> B["② Mesh import<br/>Region tagging"]
+    B --> C["③ Boundary conditions<br/>PML initialisation"]
+    C --> D["④ Vectorized K / M assembly<br/>Mass · Stiffness matrices"]
+    D --> E["⑤ parfor frequency sweep<br/>Solve (-ω²M+K)·x = f"]
+    E --> F["⑥ Extract charge Q<br/>Admittance Y = |iωQ/V|"]
 ```
 
 ---
 
 <a id="showcase"></a>
 
-## 📊 算例详解：二维周期单元
+## 📊 Worked Example: 2-D Periodic Unit Cell
 
-以一个二维周期单元模型为例，展示求解器输出的完整物理场。在叉指换能器交流激励下，求解器同时给出器件内部的位移场与电势场。
+A 2-D periodic-cell model is used here to illustrate the full physical fields produced by the solver. Under AC IDT excitation, the solver simultaneously delivers the displacement and electric-potential fields inside the device.
 
 <div align="center">
 <img src="docs/images/displacement.png" width="262">
 &nbsp;&nbsp;
 <img src="docs/images/potential.png" width="262">
 <br>
-<sub><b>图 2</b> · 谐振态（f_r ≈ 1.81 GHz）位移场幅值 —— 能量集中于表面、PML 内归零 &nbsp;|&nbsp; <b>图 3</b> · 电势场 —— 正负电极建立电场、经压电效应激励声波</sub>
+<sub><b>Fig. 2</b> · Displacement-field magnitude at resonance (f_r ≈ 1.81 GHz) — energy concentrated near the surface and damped to zero inside the PML &nbsp;|&nbsp; <b>Fig. 3</b> · Potential field — positive/negative electrodes set up the field that, via the piezoelectric effect, launches the acoustic wave</sub>
 </div>
 
-导纳由信号电极上的感应电荷 `Q` 计算：**`Y = |iωQ / V|`**。导纳曲线上的**峰值对应谐振**（低阻抗），**谷值对应反谐振**（高阻抗），二者的频率间隔反映器件的机电耦合强度。
+The admittance is computed from the induced charge `Q` on the signal electrode: **`Y = |iωQ / V|`**. **Peaks** on the admittance curve mark the **resonance** (low impedance) and **troughs** mark the **anti-resonance** (high impedance); the spacing between them reflects the electromechanical coupling strength of the device.
 
 <div align="center">
 <img src="docs/images/admittance.png" width="560"><br>
-<sub><b>图 4</b> · Y11 导纳曲线 —— 谐振峰 f_r 与反谐振谷 f_a 清晰可见，体现器件的谐响应特征</sub>
+<sub><b>Fig. 4</b> · Y11 admittance curve — the resonance peak f_r and the anti-resonance trough f_a are clearly resolved, characterising the harmonic response of the device</sub>
 </div>
 
 ---
 
 <a id="library"></a>
 
-## 📚 模型库
+## 📚 Model Library
 
-本求解器覆盖 **SAW 算例库共 17 个算例**，系统涵盖 2D / 2.5D、单周期单元（SP）/ 有限器件（FP）、单层至多层、温度补偿（TC-SAW）等典型结构。每类给出模型规格表、结构 / 场分布可视化与 Y11 导纳合集。下列按「先单周期、后有限长，先 2D、后 2.5D」编排。
+The solver ships with a **library of 17 SAW cases** spanning 2D / 2.5D, single-period (SP) / finite-device (FP), single up to multilayer stacks and the temperature-compensated (TC-SAW) variant. Each family includes a model-spec table, structural / field visualisations and a composite Y11 plot. The ordering below is "SP before FP, 2D before 2.5D".
 
 <a id="sp2d"></a>
 
-### 🔹 二维周期单元模型（SP-2D）
+### 🔹 SP-2D — 2-D Periodic Unit Cell
 
-单个周期单元，左右施加 Bloch 周期边界，等效模拟无限长周期叉指阵列。涵盖 1–4 层叠层结构；另含一例**温度补偿型 SAW（TC-SAW）**，在压电层上叠加 SiO₂ / Si₃N₄ 补偿层以抑制谐振频率的温度漂移。
+A single periodic unit cell with Bloch periodic boundaries on the left and right, equivalent to an infinitely long periodic IDT. Covers 1- to 4-layer stacks; one further case is a **temperature-compensated SAW (TC-SAW)** that stacks SiO₂ / Si₃N₄ compensation layers on top of the piezoelectric film to suppress the temperature drift of the resonant frequency.
 
-| 算例 | 叠层结构（衬底→上） | 节点数 | 扫频范围 (GHz) | 谐振 f_r (GHz) |
+| Case | Stack (substrate → top) | Nodes | Sweep (GHz) | f_r (GHz) |
 |:---|:---:|---:|:---:|---:|
 | `SP_2D_1ceng` | LiTaO₃ | 1,563 | 1.50 – 2.70 | 1.81 |
 | `SP_2D_2ceng` | LiTaO₃ / Si | 1,465 | 1.50 – 2.70 | 1.82 |
 | `SP_2D_3ceng` | LiTaO₃ / SiO₂ / Poly-Si | 1,465 | 1.50 – 2.70 | 1.76 |
 | `SP_2D_4ceng` | LiTaO₃ / SiO₂ / Poly-Si / Si | 1,601 | 1.50 – 2.70 | 1.76 |
-| `SP_2D_TCSAW` | LiNbO₃ / SiO₂ / Si₃N₄（温补） | 12,565 | 1.60 – 2.00 | 1.76 |
+| `SP_2D_TCSAW` | LiNbO₃ / SiO₂ / Si₃N₄ (TC) | 12,565 | 1.60 – 2.00 | 1.76 |
 
 <div align="center">
 <img src="docs/images/mesh_SP2D.png" width="100%"><br>
-<sub><b>图 5</b> · SP-2D 系列周期单元有限元网格 —— 按材料分区显示压电层、功能衬层、电极与 PML</sub>
+<sub><b>Fig. 5</b> · SP-2D periodic-cell meshes — coloured by material to show the piezoelectric layer, functional sublayers, electrodes and PML</sub>
 <br><br>
 <img src="docs/images/admittance_SP2D.png" width="100%"><br>
-<sub><b>图 6</b> · SP-2D 系列 Y11 导纳曲线</sub>
+<sub><b>Fig. 6</b> · Y11 admittance curves of the SP-2D series</sub>
 </div>
 
 <a id="sp25d"></a>
 
-### 🔹 2.5D 周期单元模型（SP-2.5D）
+### 🔹 SP-2.5D — 2.5-D Periodic Unit Cell
 
-2.5D 周期单元，采用 27 节点六面体（Hex27）高阶单元，前后 / 左右施加周期边界，模拟有限孔径下的周期叉指结构。
+2.5-D periodic-cell models discretized with 27-node hexahedral (Hex27) high-order elements; periodic boundaries are applied front-back and left-right, modelling a finite-aperture periodic IDT.
 
-| 算例 | 结构 | 节点数 | 扫频范围 (GHz) | 谐振 f_r (GHz) |
+| Case | Stack | Nodes | Sweep (GHz) | f_r (GHz) |
 |:---|:---:|---:|:---:|---:|
-| `SP_3D_1ceng` | 单层 | 8,127 | 1.50 – 2.70 | 1.81 |
-| `SP_3D_2ceng` | 双层 | 8,721 | 1.75 – 2.00 | 1.84 |
-| `SP_3D_3ceng` | 三层 | 9,513 | 1.60 – 2.00 | 1.76 |
-| `SP_3D_4ceng` | 四层 | 10,305 | 1.80 – 2.10 | 1.90 |
+| `SP_3D_1ceng` | Single layer | 8,127 | 1.50 – 2.70 | 1.81 |
+| `SP_3D_2ceng` | Two layers | 8,721 | 1.75 – 2.00 | 1.84 |
+| `SP_3D_3ceng` | Three layers | 9,513 | 1.60 – 2.00 | 1.76 |
+| `SP_3D_4ceng` | Four layers | 10,305 | 1.80 – 2.10 | 1.90 |
 
 <div align="center">
 <img src="docs/images/board_SP25D.png" width="100%"><br>
-<sub><b>图 7</b> · SP-2.5D 系列网格、位移场、电势场总览</sub>
+<sub><b>Fig. 7</b> · SP-2.5D overview: mesh, displacement field and potential field</sub>
 <br><br>
 <img src="docs/images/admittance_SP25D.png" width="100%"><br>
-<sub><b>图 8</b> · SP-2.5D 系列 Y11 导纳曲线</sub>
+<sub><b>Fig. 8</b> · Y11 admittance curves of the SP-2.5D series</sub>
 </div>
 
 <a id="fp2d"></a>
 
-### 🔹 二维有限器件模型（FP-2D）
+### 🔹 FP-2D — 2-D Finite Device
 
-有限长度的真实器件模型（多指电极阵列），底部固定、两侧自由边界，直接对应实际芯片版图。
+Real finite-length device models (multi-finger IDT arrays), fixed at the bottom and free on the sides — corresponding directly to the actual chip layout.
 
-| 算例 | 叠层结构（衬底→上） | 节点数 | 扫频范围 (GHz) | 谐振 f_r (GHz) |
+| Case | Stack (substrate → top) | Nodes | Sweep (GHz) | f_r (GHz) |
 |:---|:---:|---:|:---:|---:|
 | `FP_2D_1ceng` | LiTaO₃ | 17,349 | 1.60 – 2.00 | 1.70 |
 | `FP_2D_2ceng` | LiTaO₃ / Si | 17,829 | 1.60 – 2.00 | 1.73 |
@@ -191,49 +197,66 @@ flowchart LR
 
 <div align="center">
 <img src="docs/images/mesh_FP2D.png" width="100%"><br>
-<sub><b>图 9</b> · FP-2D 系列有限元网格 —— 按材料分区显示压电层、功能衬层、电极与 PML 吸收层</sub>
+<sub><b>Fig. 9</b> · FP-2D finite-element meshes — coloured by material to show the piezoelectric layer, functional sublayers, electrodes and PML absorber</sub>
 <br><br>
 <img src="docs/images/admittance_FP2D.png" width="100%"><br>
-<sub><b>图 10</b> · FP-2D 系列 Y11 导纳曲线</sub>
+<sub><b>Fig. 10</b> · Y11 admittance curves of the FP-2D series</sub>
 </div>
 
 <a id="fp25d"></a>
 
-### 🔹 2.5D 有限器件模型（FP-2.5D）
+### 🔹 FP-2.5D — 2.5-D Finite Device
 
-2.5D 有限长度器件模型，是算例库中规模最大的一类 —— 最大网格逾 27 万节点、逾百万自由度，体现求解器对大规模问题的处理能力。
+The largest models in the library — the biggest mesh exceeds 270,000 nodes and one million DOFs, demonstrating the solver's capacity for large-scale problems.
 
-| 算例 | 结构 | 节点数 | 扫频范围 (GHz) | 谐振 f_r (GHz) |
+| Case | Stack | Nodes | Sweep (GHz) | f_r (GHz) |
 |:---|:---:|---:|:---:|---:|
-| `FP_3D_1ceng` | 单层 | 273,627 | 1.80 – 2.20 | 1.88 |
-| `FP_3D_2ceng` | 双层 | 86,835 | 1.75 – 2.00 | 1.81 |
-| `FP_3D_3ceng` | 三层 | 207,453 | 1.60 – 2.00 | 1.85 |
-| `FP_3D_4ceng` | 四层 | 66,585 | 1.80 – 2.10 | 1.87 |
+| `FP_3D_1ceng` | Single layer | 273,627 | 1.80 – 2.20 | 1.88 |
+| `FP_3D_2ceng` | Two layers | 86,835 | 1.75 – 2.00 | 1.81 |
+| `FP_3D_3ceng` | Three layers | 207,453 | 1.60 – 2.00 | 1.85 |
+| `FP_3D_4ceng` | Four layers | 66,585 | 1.80 – 2.10 | 1.87 |
 
 <div align="center">
 <img src="docs/images/board_FP25D.png" width="100%"><br>
-<sub><b>图 11</b> · FP-2.5D 系列网格、位移场、电势场总览</sub>
+<sub><b>Fig. 11</b> · FP-2.5D overview: mesh, displacement field and potential field</sub>
 <br><br>
 <img src="docs/images/admittance_FP25D.png" width="100%"><br>
-<sub><b>图 12</b> · FP-2.5D 系列 Y11 导纳曲线 —— 大规模有限器件模型的谐振特性</sub>
+<sub><b>Fig. 12</b> · Y11 admittance curves of the FP-2.5D series — harmonic response of large-scale finite-device models</sub>
 </div>
 
 ---
 
 <a id="stack"></a>
 
-## 🛠️ 技术栈
+## 🛠️ Tech Stack
 
-| 工具 | 用途 |
+| Tool | Role |
 |---|---|
-| **MATLAB**（含 Parallel Computing Toolbox） | 有限元组装与 `parfor` 并行频域求解 |
-| **Gmsh** | 参数化几何建模与网格剖分 |
-| **Python / matplotlib** | Gmsh 脚本接口与结果后处理可视化 |
+| **MATLAB** (with Parallel Computing Toolbox) | FE assembly and `parfor` parallel frequency-domain solve |
+| **Gmsh** | Parametric geometry and meshing |
+| **Python / matplotlib** | Gmsh scripting interface and post-processing visualisation |
 
 ---
 
-<a id="about"></a>
+<a id="demo"></a>
 
-## 👤 关于本项目
+## 💻 Code Demo · 2D TCSAW
 
-本仓库由 **[Shaoqing Duan](https://github.com/Duane245)** 独立开发与维护。单人完成：压电本构与晶体张量、复坐标拉伸 PML、有限元向量化组装、`parfor` 并行扫频、17 个 SAW 算例与可视化流水线。
+A ready-to-run **temperature-compensated SAW (TC-SAW)** 2-D periodic-cell demo is bundled with this repository → [`2DTCSAW/`](2DTCSAW/)
+
+- **Physics**: LiNbO₃ substrate + SiO₂ / Si₃N₄ compensation layers + Al IDT
+- **Method**: Q9 elements · Bloch periodic BC · complex-coordinate-stretched PML
+- **Run**: `cd 2DTCSAW && matlab -batch "SolveSAW"` (≈ 5 min, single process)
+- **Output**: `Y11.mat` + mesh / displacement / potential / Y₁₁ admittance figures
+
+Requires MATLAB R2023a+ only — no extra toolboxes needed. See [`2DTCSAW/README.md`](2DTCSAW/README.md) for details. Released under the [MIT License](LICENSE); version history in [`CHANGELOG.md`](CHANGELOG.md).
+
+---
+
+<a id="contact"></a>
+
+## 🤝 Contact & Collaboration
+
+Discussions on SAW simulation, piezoelectric FEM and PML implementations are very welcome; academic collaborations, industry consulting and pull requests are equally welcome.
+
+- 🐛 **Issues** · [GitHub Issues](../../issues) — bug reports and feature requests
