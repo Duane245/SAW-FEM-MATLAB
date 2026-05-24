@@ -15,6 +15,7 @@
 [![Demo](https://img.shields.io/badge/Demo-2D%20TCSAW-FF6F00)](2DTCSAW/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 [![Changelog](https://img.shields.io/badge/Changelog-keepachangelog-E05735)](CHANGELOG.md)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20362278.svg)](https://doi.org/10.5281/zenodo.20362278)
 
 Author · [Shaoqing Duan](https://github.com/Duane245)
 
