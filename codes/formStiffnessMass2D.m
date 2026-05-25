@@ -1,0 +1,13 @@
+function [massuu,stiffnessuu,stiffnessfifi,stiffnessufi,stiffnessfiu] = formStiffnessMass2D(GDofu,GDoffi, ...
+    elementNodes,numberNodes,nodeCoordinates,material_type,ME)
+[stiffnessuu,massuu] = formStiffnessMass2Duu(GDofu,GDoffi, ...
+    elementNodes,numberNodes,nodeCoordinates,1,'Q9','third',material_type,ME);
+stiffnessfifi = formStiffnessMass2Dfi(GDoffi, ...
+    elementNodes,numberNodes,nodeCoordinates,1,'Q9','third',material_type,ME);
+stiffnessufi = formStiffnessMass2Dufi(GDofu,GDoffi, ...
+    elementNodes,numberNodes,nodeCoordinates,1,'Q9','third',material_type,ME);
+stiffnessfiu = stiffnessufi';
+
+
+end
+
