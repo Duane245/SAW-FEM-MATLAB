@@ -5,6 +5,19 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-06-04
+
+### Added
+- 第三批开源算例(共 4 个,SP-2.5D 系列周期单元):
+  - `SP_3D_1ceng/` —— LiTaO₃ + Al, pitch 1.085 µm, 1.5–2.7 GHz, ~8 100 节点
+  - `SP_3D_2ceng/` —— + Si 层, pitch 1.085 µm, 1.75–2.0 GHz, ~8 700 节点
+  - `SP_3D_3ceng/` —— + SiO₂ + Poly-Si 层, pitch 1.085 µm, 1.6–2.0 GHz, ~9 500 节点
+  - `SP_3D_4ceng/` —— + Si 层(4 层叠层), pitch 1.0 µm, 1.8–2.1 GHz, ~10 300 节点
+  - Hex27 高阶六面体单元、Bloch 周期边界、复坐标拉伸 PML
+  - 单进程序列扫频,跑通命令 `matlab -batch "Solve3DSAW"`
+- 4 个 Gmsh 网格生成脚本,按 demo 名命名:`mesh/SP_3D_<N>ceng.py`
+- `codes/` 新增 22 个 3D helper(Hex27 装配、形函数、PML、边界排序、3D 绘图)
+
 ## [0.2.0] - 2026-05-25
 
 ### Added
@@ -28,6 +41,7 @@
 ### Notes
 - 仓库性质由"纯展示文档"扩展为"展示 + 可运行代码 demo"
 
-[Unreleased]: https://github.com/Duane245/SAW-FEM-MATLAB/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/Duane245/SAW-FEM-MATLAB/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/Duane245/SAW-FEM-MATLAB/releases/tag/v0.3.0
 [0.2.0]: https://github.com/Duane245/SAW-FEM-MATLAB/releases/tag/v0.2.0
 [0.1.0]: https://github.com/Duane245/SAW-FEM-MATLAB/releases/tag/v0.1.0

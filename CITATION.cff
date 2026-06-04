@@ -15,8 +15,8 @@ authors:
 repository-code: "https://github.com/Duane245/SAW-FEM-MATLAB"
 url: "https://github.com/Duane245/SAW-FEM-MATLAB"
 license: MIT
-version: "0.2.0"
-date-released: "2026-05-25"
+version: "0.3.0"
+date-released: "2026-06-04"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.20362278"
@@ -24,6 +24,9 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.20362279"
     description: "Version DOI for v0.1.0"
+  - type: doi
+    value: "10.5281/zenodo.20380701"
+    description: "Version DOI for v0.2.0"
 keywords:
   - SAW
   - surface-acoustic-wave

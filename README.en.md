@@ -60,14 +60,14 @@ Under interdigital-transducer (IDT) excitation, the solver jointly solves the st
 
 | | |
 |---|---|
-| **Current version** | v0.2.0 (2026-05-25) |
-| **Open-sourced demos** | 2 / 17 — `SP_2D_TCSAW`, `FP_2D_TCSAW` |
+| **Current version** | v0.3.0 (2026-06-04) |
+| **Open-sourced demos** | 6 / 17 — `SP_2D_TCSAW`, `FP_2D_TCSAW`, `SP_3D_1ceng` ~ `4ceng` |
 | **Maintenance** | 🟢 Active — under iterative development |
 | **DOI** | [10.5281/zenodo.20362278](https://doi.org/10.5281/zenodo.20362278) (concept) |
 
 **Roadmap**
 
-- **v0.3.0** — SP-2.5D series: `SP_3D_1ceng` / `2ceng` / `3ceng` / `4ceng` (4 cases, Hex27 high-order)
+- **v0.4.0** — FP-2.5D series: `FP_3D_1ceng` / `2ceng` / `3ceng` / `4ceng` (4 cases, Hex27 high-order finite-device models)
 - **Long term** — `pysaw_fem`: zero-license Python rewrite (NumPy / SciPy / scikit-fem)
 
 ---
@@ -262,38 +262,48 @@ The largest models in the library — the biggest mesh exceeds 270,000 nodes and
 
 ## 💻 Code Demos
 
-Two ready-to-run **temperature-compensated SAW (TC-SAW)** demos are bundled with this repository. Both share the **same top-level solver core ([`codes/`](codes/)) and mesh sources ([`mesh/`](mesh/))** and differ only in boundary conditions:
+**6 ready-to-run demos** are bundled with this repository, all sharing the **same top-level solver core ([`codes/`](codes/)) and mesh sources ([`mesh/`](mesh/))**, differing only in dimension, boundary conditions and stack composition.
 
-### 🔹 [`SP_2D_TCSAW/`](SP_2D_TCSAW/) — SP, periodic unit cell (since v0.1.0)
+### 🔹 SP-2D — periodic unit cell, 2D (since v0.1.0)
 
-- **Geometry**: a single IDT period with Bloch periodic boundaries on the left/right
-- **Method**: Q9 elements · Bloch periodic BC · complex-coordinate-stretched PML
-- **Mesh**: ≈ 12 500 nodes
-- **Run**: `cd SP_2D_TCSAW && matlab -batch "SolveSAW"` (≈ 4 – 5 min, single process)
+- [`SP_2D_TCSAW/`](SP_2D_TCSAW/) — Q9 elements · Bloch periodic BC · ≈ 12 500 nodes · `matlab -batch "SolveSAW"` (≈ 4 – 5 min, single process)
 
-### 🔹 [`FP_2D_TCSAW/`](FP_2D_TCSAW/) — FP, finite multi-finger device (since v0.2.0)
+### 🔹 FP-2D — finite device, 2D (since v0.2.0)
 
-- **Geometry**: full 21-period IDT with floating-potential end electrodes — directly matches chip layout
-- **Method**: Q9 elements · free + floating-potential side BC · complex-coordinate-stretched PML
-- **Mesh**: ≈ 48 700 nodes
-- **Run**: `cd FP_2D_TCSAW && matlab -batch "SolveSAW"` (≈ 30 – 60 min, single process)
+- [`FP_2D_TCSAW/`](FP_2D_TCSAW/) — full 21-period multi-finger IDT · floating-potential end electrodes · ≈ 48 700 nodes · `matlab -batch "SolveSAW"` (≈ 30 – 60 min, single process)
 
-Use **SP** for rapid design-space sweeps; use **FP** when the result needs to match a fabricated chip.
+### 🔹 SP-2.5D — periodic unit cell, 2.5D (since v0.3.0)
 
-Each demo's `SolveSAW.m` prepends `addpath('../codes')` and `addpath('../mesh')`, so the top-level shared folders are picked up automatically.
+| Demo | Stack | Pitch | Sweep | Nodes |
+|---|---|---|---|---|
+| [`SP_3D_1ceng/`](SP_3D_1ceng/) | LiTaO₃ + Al | 1.085 µm | 1.50 – 2.70 GHz | ~ 8 100 |
+| [`SP_3D_2ceng/`](SP_3D_2ceng/) | + Si layer | 1.085 µm | 1.75 – 2.00 GHz | ~ 8 700 |
+| [`SP_3D_3ceng/`](SP_3D_3ceng/) | + SiO₂ + Poly-Si layers | 1.085 µm | 1.60 – 2.00 GHz | ~ 9 500 |
+| [`SP_3D_4ceng/`](SP_3D_4ceng/) | + Si layer (4-layer stack) | 1.0 µm | 1.80 – 2.10 GHz | ~ 10 300 |
+
+These 4 demos use 27-node hexahedral (Hex27) high-order elements. Uniform run command: `cd SP_3D_<N>ceng && matlab -batch "Solve3DSAW"` (single process, ~10 – 30 min depending on layer count and sweep size).
+
+Use **SP** for rapid design-space sweeps; use **FP** when the result needs to match a fabricated chip. Each demo's `Solve*SAW.m` prepends `addpath('../codes')` and `addpath('../mesh')`, so the top-level shared folders are picked up automatically.
 
 ### Mesh regeneration (one-time)
 
 The MATLAB mesh `.m` files are **not bundled** (they are large and easy to regenerate). Before the first run, generate them once from the Gmsh `.py` sources:
 
 ```bash
-python mesh/SAW-PeriodBC1_TC_1.py    # → mesh/SAW_PeriodBC1_TC.m   (for SP)
-python mesh/SAW_TC_PML3.py           # → mesh/SAW_TC_PML3.m        (for FP)
+# SP-2D / FP-2D
+python mesh/SAW-PeriodBC1_TC_1.py    # → mesh/SAW_PeriodBC1_TC.m   (for SP_2D_TCSAW)
+python mesh/SAW_TC_PML3.py           # → mesh/SAW_TC_PML3.m        (for FP_2D_TCSAW)
+
+# SP-2.5D (4 new in v0.3.0)
+python mesh/SP_3D_1ceng.py           # → mesh/SP_3D_1ceng.m
+python mesh/SP_3D_2ceng.py           # → mesh/SP_3D_2ceng.m
+python mesh/SP_3D_3ceng.py           # → mesh/SP_3D_3ceng.m
+python mesh/SP_3D_4ceng.py           # → mesh/SP_3D_4ceng.m
 ```
 
 Requires [Gmsh](https://gmsh.info) and Python with the `gmsh` module. If Gmsh / Python are not available, pre-generate elsewhere and copy the resulting `.m` files into `mesh/`.
 
-Both demos produce `Y11.mat` + mesh / displacement / potential / Y₁₁ admittance figures. Requires MATLAB R2023a+ only — no extra toolboxes needed. Released under the [MIT License](LICENSE); version history in [`CHANGELOG.md`](CHANGELOG.md).
+All demos produce `Y11.mat` + mesh / displacement / potential / Y₁₁ admittance figures. Requires MATLAB R2023a+ only — no extra toolboxes needed. Released under the [MIT License](LICENSE); version history in [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
