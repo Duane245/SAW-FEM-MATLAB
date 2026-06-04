@@ -27,6 +27,9 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.20380701"
     description: "Version DOI for v0.2.0"
+  - type: doi
+    value: "10.5281/zenodo.20545009"
+    description: "Version DOI for v0.3.0"
 keywords:
   - SAW
   - surface-acoustic-wave
