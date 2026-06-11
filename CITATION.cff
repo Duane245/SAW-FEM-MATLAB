@@ -15,8 +15,8 @@ authors:
 repository-code: "https://github.com/Duane245/SAW-FEM-MATLAB"
 url: "https://github.com/Duane245/SAW-FEM-MATLAB"
 license: MIT
-version: "0.3.0"
-date-released: "2026-06-04"
+version: "0.4.0"
+date-released: "2026-06-10"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.20362278"

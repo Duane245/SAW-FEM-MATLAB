@@ -10,6 +10,10 @@ SP_3D_1ceng/Y11.mat
 SP_3D_2ceng/Y11.mat
 SP_3D_3ceng/Y11.mat
 SP_3D_4ceng/Y11.mat
+FP_3D_1ceng/Y11.mat
+FP_3D_2ceng/Y11.mat
+FP_3D_3ceng/Y11.mat
+FP_3D_4ceng/Y11.mat
 
 # Locally-regenerated mesh files (regenerate from mesh/*.py via Gmsh; do not commit)
 mesh/SAW_PeriodBC1_TC.m
@@ -18,3 +22,7 @@ mesh/SP_3D_1ceng.m
 mesh/SP_3D_2ceng.m
 mesh/SP_3D_3ceng.m
 mesh/SP_3D_4ceng.m
+mesh/FP_3D_1ceng.m
+mesh/FP_3D_2ceng.m
+mesh/FP_3D_3ceng.m
+mesh/FP_3D_4ceng.m

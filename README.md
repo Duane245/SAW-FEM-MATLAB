@@ -60,14 +60,14 @@ Author · [Shaoqing Duan](https://github.com/Duane245)
 
 | | |
 |---|---|
-| **当前版本** | v0.3.0(2026-06-04) |
-| **开源算例** | 6 / 17 —— `SP_2D_TCSAW`、`FP_2D_TCSAW`、`SP_3D_1ceng` ~ `4ceng` |
+| **当前版本** | v0.4.0(2026-06-10) |
+| **开源算例** | 10 / 17 —— `SP_2D_TCSAW`、`FP_2D_TCSAW`、`SP_3D_1ceng` ~ `4ceng`、`FP_3D_1ceng` ~ `4ceng` |
 | **维护状态** | 🟢 Active —— 持续迭代中 |
 | **DOI** | [10.5281/zenodo.20362278](https://doi.org/10.5281/zenodo.20362278)(concept) |
 
 **路线图**
 
-- **v0.4.0** —— FP-2.5D 系列:`FP_3D_1ceng` / `2ceng` / `3ceng` / `4ceng`(共 4 个算例,Hex27 高阶六面体有限器件模型)
+- **v0.5.0** —— SP-2D `*ceng` 系列:`SP_2D_1ceng` / `2ceng` / `3ceng` / `4ceng`(共 4 个算例,Q9 二维周期单元多层叠层)
 - **长期** —— `pysaw_fem`:零授权门槛的 Python 重写版(NumPy / SciPy / scikit-fem)
 
 ---
@@ -262,7 +262,7 @@ flowchart LR
 
 ## 💻 代码示例
 
-仓库共附带 **6 个开箱即用的算例**,共享**同一套顶层求解器底层([`codes/`](codes/))与网格源([`mesh/`](mesh/))**,差异只在维度、边界条件与叠层结构。
+仓库共附带 **10 个开箱即用的算例**,共享**同一套顶层求解器底层([`codes/`](codes/))与网格源([`mesh/`](mesh/))**,差异只在维度、边界条件与叠层结构。
 
 ### 🔹 SP-2D —— 二维周期单元(自 v0.1.0)
 
@@ -283,6 +283,17 @@ flowchart LR
 
 4 个 demo 使用 27 节点六面体(Hex27)高阶单元,运行命令统一为 `cd SP_3D_<N>ceng && matlab -batch "Solve3DSAW"`(单进程,~10 – 30 min,视层数与频点数而定)。
 
+### 🔹 FP-2.5D —— 2.5D 有限器件(自 v0.4.0)
+
+| Demo | 叠层结构 | pitch | 扫频 | 节点数 |
+|---|---|---|---|---|
+| [`FP_3D_1ceng/`](FP_3D_1ceng/) | LiNbO₃ + Al | 1.0 µm | 1.80 – 2.20 GHz | ~ 274 K |
+| [`FP_3D_2ceng/`](FP_3D_2ceng/) | LiTaO₃ + Al + Si | 1.085 µm | 1.75 – 2.00 GHz | ~ 87 K |
+| [`FP_3D_3ceng/`](FP_3D_3ceng/) | + SiO₂ + Poly-Si 层 | 1.0 µm | 1.60 – 2.00 GHz | ~ 207 K |
+| [`FP_3D_4ceng/`](FP_3D_4ceng/) | + Si 层(5 层叠层) | 1.0 µm | 1.80 – 2.10 GHz | ~ 67 K |
+
+4 个 demo 同样使用 Hex27 高阶单元,完整 21 周期多指 IDT,运行命令统一为 `cd FP_3D_<N>ceng && matlab -batch "Solve3DSAW"`(单进程,体量大于 SP-2.5D,典型 1 – 数小时,视层数与频点数而定)。
+
 **SP 适合** 设计空间快速扫描;**FP 适合** 与实测芯片对照。每个 demo 的 `Solve*SAW.m` 都已在开头追加 `addpath('../codes')` 与 `addpath('../mesh')`,自动加载顶层共享文件夹。
 
 ### 网格生成(一次性)
@@ -294,11 +305,17 @@ MATLAB 网格 `.m` 文件因体积较大且易于重新生成,**未随仓库分�
 python mesh/SAW-PeriodBC1_TC_1.py    # → mesh/SAW_PeriodBC1_TC.m   (供 SP_2D_TCSAW 用)
 python mesh/SAW_TC_PML3.py           # → mesh/SAW_TC_PML3.m        (供 FP_2D_TCSAW 用)
 
-# SP-2.5D (新加 4 个)
+# SP-2.5D (v0.3.0)
 python mesh/SP_3D_1ceng.py           # → mesh/SP_3D_1ceng.m
 python mesh/SP_3D_2ceng.py           # → mesh/SP_3D_2ceng.m
 python mesh/SP_3D_3ceng.py           # → mesh/SP_3D_3ceng.m
 python mesh/SP_3D_4ceng.py           # → mesh/SP_3D_4ceng.m
+
+# FP-2.5D (新加 4 个)
+python mesh/FP_3D_1ceng.py           # → mesh/FP_3D_1ceng.m
+python mesh/FP_3D_2ceng.py           # → mesh/FP_3D_2ceng.m
+python mesh/FP_3D_3ceng.py           # → mesh/FP_3D_3ceng.m
+python mesh/FP_3D_4ceng.py           # → mesh/FP_3D_4ceng.m
 ```
 
 需要 [Gmsh](https://gmsh.info) 及带 `gmsh` 模块的 Python。如果运行机器无 Gmsh / Python,可在其它机器预先生成 `.m` 网格后拷贝到 `mesh/`。

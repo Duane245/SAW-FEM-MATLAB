@@ -60,14 +60,14 @@ Under interdigital-transducer (IDT) excitation, the solver jointly solves the st
 
 | | |
 |---|---|
-| **Current version** | v0.3.0 (2026-06-04) |
-| **Open-sourced demos** | 6 / 17 — `SP_2D_TCSAW`, `FP_2D_TCSAW`, `SP_3D_1ceng` ~ `4ceng` |
+| **Current version** | v0.4.0 (2026-06-10) |
+| **Open-sourced demos** | 10 / 17 — `SP_2D_TCSAW`, `FP_2D_TCSAW`, `SP_3D_1ceng` ~ `4ceng`, `FP_3D_1ceng` ~ `4ceng` |
 | **Maintenance** | 🟢 Active — under iterative development |
 | **DOI** | [10.5281/zenodo.20362278](https://doi.org/10.5281/zenodo.20362278) (concept) |
 
 **Roadmap**
 
-- **v0.4.0** — FP-2.5D series: `FP_3D_1ceng` / `2ceng` / `3ceng` / `4ceng` (4 cases, Hex27 high-order finite-device models)
+- **v0.5.0** — SP-2D `*ceng` series: `SP_2D_1ceng` / `2ceng` / `3ceng` / `4ceng` (4 cases, Q9 multi-layer stacks under periodic BC)
 - **Long term** — `pysaw_fem`: zero-license Python rewrite (NumPy / SciPy / scikit-fem)
 
 ---
@@ -262,7 +262,7 @@ The largest models in the library — the biggest mesh exceeds 270,000 nodes and
 
 ## 💻 Code Demos
 
-**6 ready-to-run demos** are bundled with this repository, all sharing the **same top-level solver core ([`codes/`](codes/)) and mesh sources ([`mesh/`](mesh/))**, differing only in dimension, boundary conditions and stack composition.
+**10 ready-to-run demos** are bundled with this repository, all sharing the **same top-level solver core ([`codes/`](codes/)) and mesh sources ([`mesh/`](mesh/))**, differing only in dimension, boundary conditions and stack composition.
 
 ### 🔹 SP-2D — periodic unit cell, 2D (since v0.1.0)
 
@@ -283,6 +283,17 @@ The largest models in the library — the biggest mesh exceeds 270,000 nodes and
 
 These 4 demos use 27-node hexahedral (Hex27) high-order elements. Uniform run command: `cd SP_3D_<N>ceng && matlab -batch "Solve3DSAW"` (single process, ~10 – 30 min depending on layer count and sweep size).
 
+### 🔹 FP-2.5D — finite device, 2.5D (since v0.4.0)
+
+| Demo | Stack | Pitch | Sweep | Nodes |
+|---|---|---|---|---|
+| [`FP_3D_1ceng/`](FP_3D_1ceng/) | LiNbO₃ + Al | 1.0 µm | 1.80 – 2.20 GHz | ~ 274 K |
+| [`FP_3D_2ceng/`](FP_3D_2ceng/) | LiTaO₃ + Al + Si | 1.085 µm | 1.75 – 2.00 GHz | ~ 87 K |
+| [`FP_3D_3ceng/`](FP_3D_3ceng/) | + SiO₂ + Poly-Si layers | 1.0 µm | 1.60 – 2.00 GHz | ~ 207 K |
+| [`FP_3D_4ceng/`](FP_3D_4ceng/) | + Si layer (5-layer stack) | 1.0 µm | 1.80 – 2.10 GHz | ~ 67 K |
+
+These 4 demos also use Hex27, with a full 21-period multi-finger IDT. Uniform run command: `cd FP_3D_<N>ceng && matlab -batch "Solve3DSAW"` (single process; larger than SP-2.5D, typically 1 – several hours depending on layer count and sweep size).
+
 Use **SP** for rapid design-space sweeps; use **FP** when the result needs to match a fabricated chip. Each demo's `Solve*SAW.m` prepends `addpath('../codes')` and `addpath('../mesh')`, so the top-level shared folders are picked up automatically.
 
 ### Mesh regeneration (one-time)
@@ -294,11 +305,17 @@ The MATLAB mesh `.m` files are **not bundled** (they are large and easy to regen
 python mesh/SAW-PeriodBC1_TC_1.py    # → mesh/SAW_PeriodBC1_TC.m   (for SP_2D_TCSAW)
 python mesh/SAW_TC_PML3.py           # → mesh/SAW_TC_PML3.m        (for FP_2D_TCSAW)
 
-# SP-2.5D (4 new in v0.3.0)
+# SP-2.5D (v0.3.0)
 python mesh/SP_3D_1ceng.py           # → mesh/SP_3D_1ceng.m
 python mesh/SP_3D_2ceng.py           # → mesh/SP_3D_2ceng.m
 python mesh/SP_3D_3ceng.py           # → mesh/SP_3D_3ceng.m
 python mesh/SP_3D_4ceng.py           # → mesh/SP_3D_4ceng.m
+
+# FP-2.5D (4 new in v0.4.0)
+python mesh/FP_3D_1ceng.py           # → mesh/FP_3D_1ceng.m
+python mesh/FP_3D_2ceng.py           # → mesh/FP_3D_2ceng.m
+python mesh/FP_3D_3ceng.py           # → mesh/FP_3D_3ceng.m
+python mesh/FP_3D_4ceng.py           # → mesh/FP_3D_4ceng.m
 ```
 
 Requires [Gmsh](https://gmsh.info) and Python with the `gmsh` module. If Gmsh / Python are not available, pre-generate elsewhere and copy the resulting `.m` files into `mesh/`.
