@@ -23,14 +23,16 @@ across versions; prefer a version DOI when citing a computational result.
 
 ### Example: v0.4.0
 
-S. Duan. SAW Resonator Finite-Element Simulation. (version 0.4.0). Zenodo,
+The v0.4.0 Zenodo metadata now uses the DuanSAW title. Its DOI and archived files are unchanged.
+
+S. Duan. DuanSAW: An open-source solver for surface acoustic wave simulation. (version 0.4.0). Zenodo,
 Jun. 2026. [Online]. doi: 10.5281/zenodo.20635934. Available:
 https://github.com/Duane245/DuanSAW
 
 ```bibtex
 @misc{duan_saw_2026_v040,
   author       = {Duan, Shaoqing},
-  title        = {{SAW Resonator Finite-Element Simulation}},
+  title        = {{DuanSAW: An open-source solver for surface acoustic wave simulation}},
   year         = {2026},
   month        = jun,
   publisher    = {Zenodo},
