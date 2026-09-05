@@ -1,6 +1,8 @@
 <div align="center">
 
-# SAW 声表面波谐振器有限元仿真
+# DuanSAW
+
+原名 **SAW-FEM-MATLAB**。开源声表面波仿真求解器。
 
 **MATLAB + Gmsh 压电耦合有限元求解器**
 面向声表面波（SAW）谐振器与滤波器的频域仿真及器件设计
@@ -20,6 +22,8 @@
 Author · [Shaoqing Duan](https://github.com/Duane245)
 
 </div>
+
+[引用本软件：版本 DOI、推荐格式与 BibTeX](CITING.md)
 
 ---
 

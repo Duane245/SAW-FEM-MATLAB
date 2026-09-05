@@ -1,6 +1,8 @@
 <div align="center">
 
-# SAW Resonator Finite-Element Simulation
+# DuanSAW
+
+Formerly known as **SAW-FEM-MATLAB**. An open-source solver for surface acoustic wave simulation.
 
 **A MATLAB + Gmsh piezoelectric finite-element solver**
 for the frequency-domain simulation and design of Surface Acoustic Wave (SAW) resonators and filters
@@ -20,6 +22,8 @@ for the frequency-domain simulation and design of Surface Acoustic Wave (SAW) re
 Author · [Shaoqing Duan](https://github.com/Duane245)
 
 </div>
+
+[Cite this software: version DOIs, recommended reference and BibTeX](CITING.md)
 
 ---
 

@@ -5,6 +5,10 @@
 
 ## [Unreleased]
 
+### Changed
+- Renamed SAW-FEM-MATLAB to DuanSAW on 2026-09-05; updated project URLs and citation guidance.
+- Preserved existing release tags, version numbers, and Zenodo DOIs; archived releases retain their original citation titles.
+
 ## [0.4.0] - 2026-06-10
 
 ### Added
@@ -54,8 +58,8 @@
 ### Notes
 - 仓库性质由"纯展示文档"扩展为"展示 + 可运行代码 demo"
 
-[Unreleased]: https://github.com/Duane245/SAW-FEM-MATLAB/compare/v0.4.0...HEAD
-[0.4.0]: https://github.com/Duane245/SAW-FEM-MATLAB/releases/tag/v0.4.0
-[0.3.0]: https://github.com/Duane245/SAW-FEM-MATLAB/releases/tag/v0.3.0
-[0.2.0]: https://github.com/Duane245/SAW-FEM-MATLAB/releases/tag/v0.2.0
-[0.1.0]: https://github.com/Duane245/SAW-FEM-MATLAB/releases/tag/v0.1.0
+[Unreleased]: https://github.com/Duane245/DuanSAW/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/Duane245/DuanSAW/releases/tag/v0.4.0
+[0.3.0]: https://github.com/Duane245/DuanSAW/releases/tag/v0.3.0
+[0.2.0]: https://github.com/Duane245/DuanSAW/releases/tag/v0.2.0
+[0.1.0]: https://github.com/Duane245/DuanSAW/releases/tag/v0.1.0

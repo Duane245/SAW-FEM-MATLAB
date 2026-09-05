@@ -134,15 +134,7 @@ FP_2D_TCSAW/
 
 If this demo is useful in your work, please consider citing the repository:
 
-```bibtex
-@software{duan2026_saw,
-  author = {Shaoqing Duan},
-  title  = {SAW-FEM-MATLAB: a piezoelectric FEM solver with TC-SAW demos},
-  year   = {2026},
-  url    = {https://github.com/Duane245/SAW-FEM-MATLAB},
-  doi    = {10.5281/zenodo.20362278}
-}
-```
+[DuanSAW citation guide / 引用指南](../CITING.md)
 
 ---
 
