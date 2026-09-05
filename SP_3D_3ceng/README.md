@@ -110,4 +110,4 @@ SP_3D_3ceng/
 
 ## 协议
 
-基于 [MIT License](../LICENSE) 发布 · 版权所有 © 2026 [Shaoqing Duan](https://github.com/Duane245)
+基于 [MIT License](../LICENSE) 发布

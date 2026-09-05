@@ -1,6 +1,6 @@
 # Citing DuanSAW
 
-DuanSAW is developed by **Shaoqing Duan**. The project was previously named
+The project was previously named
 **SAW-FEM-MATLAB** and was renamed on September 5, 2026. Its long-term title is
 **DuanSAW: An open-source solver for surface acoustic wave simulation**.
 The current implementation uses MATLAB and Gmsh for piezoelectric finite-element simulation.

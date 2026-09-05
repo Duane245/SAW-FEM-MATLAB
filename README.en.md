@@ -19,8 +19,6 @@ for the frequency-domain simulation and design of Surface Acoustic Wave (SAW) re
 [![Changelog](https://img.shields.io/badge/Changelog-keepachangelog-E05735)](CHANGELOG.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20362278.svg)](https://doi.org/10.5281/zenodo.20362278)
 
-Author · [Shaoqing Duan](https://github.com/Duane245)
-
 </div>
 
 [Cite this software: version DOIs, recommended reference and BibTeX](CITING.md)

@@ -110,4 +110,4 @@ SP_3D_4ceng/
 
 ## License
 
-Released under the [MIT License](../LICENSE) · Copyright © 2026 [Shaoqing Duan](https://github.com/Duane245)
+Released under the [MIT License](../LICENSE)

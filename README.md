@@ -19,8 +19,6 @@
 [![Changelog](https://img.shields.io/badge/Changelog-keepachangelog-E05735)](CHANGELOG.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20362278.svg)](https://doi.org/10.5281/zenodo.20362278)
 
-Author · [Shaoqing Duan](https://github.com/Duane245)
-
 </div>
 
 [引用本软件：版本 DOI、推荐格式与 BibTeX](CITING.md)
