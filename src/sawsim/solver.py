@@ -49,7 +49,7 @@ def run_simulation(config, output_dir, on_progress=None, should_cancel=None, *, 
     """Accept dict/SimulationConfig; return manifest dict. Cancellation raises InterruptedError."""
     model_id = config.get('model_id') if isinstance(config, dict) else getattr(config, 'model_id', None)
     if model_id == 'hct_tcsaw':
-        raise ValueError('finite-length (HCT) models are not included in the open-source package; see https://sawsim.com')
+        raise ValueError('finite-length (HCT) models are not included in the open-source package')
     cfg = config if isinstance(config, SimulationConfig) else SimulationConfig.model_validate(config)
     if cfg.model_id.startswith('sp_2p5d_'):
         from sawsim.hex_solver import run_hex_simulation

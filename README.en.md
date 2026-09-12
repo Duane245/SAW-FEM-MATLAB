@@ -12,7 +12,7 @@ Q9 / Hex27 · PML · Bloch periodicity · verified against a reference FEM solut
 ![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-blue)
 
-**DuanSAW** is the project and citation name; **sawsim** is the Python package, the command and the hosted service at [sawsim.com](https://sawsim.com).
+**DuanSAW** is the project and citation name; **sawsim** is the Python package and command; the hosted service at sawsim.com opens soon.
 
 </div>
 

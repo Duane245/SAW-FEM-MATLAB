@@ -33,7 +33,7 @@ dev = ["pytest"]
 sawsim = "sawsim.cli:main"
 
 [project.urls]
-Homepage = "https://sawsim.com"
+Homepage = "https://github.com/Duane245/DuanSAW"
 Repository = "https://github.com/Duane245/DuanSAW"
 
 [tool.setuptools]
