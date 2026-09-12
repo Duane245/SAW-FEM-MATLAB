@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "For a released version, cite its Zenodo record using the archived title and version DOI. See CITING.md for citation examples and the project rename history."
+type: software
+title: "DuanSAW: An open-source solver for surface acoustic wave simulation"
+abstract: >
+  A MATLAB + Gmsh piezoelectric finite-element solver for the frequency-domain
+  simulation and design of Surface Acoustic Wave (SAW) resonators and filters,
+  with vectorized assembly, complex-coordinate-stretched PML and parfor-parallel
+  Y11 admittance sweeps.
+authors:
+  - family-names: Duan
+    given-names: Shaoqing
+    # orcid: "https://orcid.org/0000-0000-0000-0000"   # 有就反注释并填
+    # affiliation: ""                                    # 单位（可留空）
+repository-code: "https://github.com/Duane245/DuanSAW"
+url: "https://github.com/Duane245/DuanSAW"
+license: MIT
+version: "0.4.0"
+date-released: "2026-06-10"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20362278"
+    description: "Concept DOI (all versions)"
+  - type: doi
+    value: "10.5281/zenodo.20362279"
+    description: "Version DOI for v0.1.0"
+  - type: doi
+    value: "10.5281/zenodo.20380701"
+    description: "Version DOI for v0.2.0"
+  - type: doi
+    value: "10.5281/zenodo.20545009"
+    description: "Version DOI for v0.3.0"
+  - type: doi
+    value: "10.5281/zenodo.20635934"
+    description: "Version DOI for v0.4.0"
+keywords:
+  - SAW
+  - surface-acoustic-wave
+  - piezoelectric
+  - finite-element
+  - PML
+  - MATLAB
+  - Gmsh

@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sawsim"
+version = "2.0.0.dev0"
+description = "sawsim (DuanSAW v2): piezoelectric coupled finite-element solver for SAW resonator unit cells (Q9 / Hex27, PML, Bloch periodicity)"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "AGPL-3.0-or-later"}
+authors = [{name = "Shaoqing Duan"}]
+keywords = ["SAW", "surface acoustic wave", "piezoelectric", "FEM", "PML", "Gmsh"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+  "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+  "numpy>=1.24",
+  "scipy>=1.10",
+  "matplotlib>=3.6",
+  "gmsh>=4.11",
+  "pydantic>=2.10,<2.11",
+]
+
+[project.optional-dependencies]
+fast = ["pypardiso"]
+web = ["fastapi>=0.110", "uvicorn>=0.30"]
+dev = ["pytest"]
+
+[project.scripts]
+sawsim = "sawsim.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Duane245/DuanSAW"
+Repository = "https://github.com/Duane245/DuanSAW"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"sawsim.material_library" = ["builtin/*.json", "custom/.gitkeep"]
