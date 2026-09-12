@@ -1,0 +1,37 @@
+{
+ "model_id": "sp_2p5d_single_layer",
+ "config": {
+  "model_id": "sp_2p5d_single_layer",
+  "mode_extension": 1,
+  "substrate_material": "sp_baseline",
+  "electrode_material": "al",
+  "layers": [],
+  "euler_convention": "zxz",
+  "euler_phi_deg": 0.0,
+  "euler_theta_deg": 48.0,
+  "euler_psi_deg": 0.0,
+  "aperture_um": 0.217,
+  "pitch_um": 1.085,
+  "electrode_um": 0.17,
+  "substrate_um": 6.51,
+  "metal_ratio": 0.5,
+  "mesh_um": 0.217,
+  "start_ghz": 1.5,
+  "stop_ghz": 2.7,
+  "points": 1201,
+  "voltage": 1.0
+ },
+ "test_points": 5,
+ "test_indices": [
+  0,
+  300,
+  600,
+  900,
+  1200
+ ],
+ "reference_fmax_hz": null,
+ "reference_rtol": 0.02990629068133397,
+ "regression_rtol": 0.002,
+ "compare_raw_slice_admittance": true,
+ "source": "saw_web_sp production comparison 2026-09-11, job d7d876ef1db0457cb46faad8586884b8"
+}

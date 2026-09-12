@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+runs/
+*.log
+.mplconfig/
+src/sawsim/material_library/custom/*.json

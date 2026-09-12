@@ -1,0 +1,52 @@
+{
+ "model_id": "sp_tcsaw",
+ "config": {
+  "model_id": "sp_tcsaw",
+  "mode_extension": 0,
+  "substrate_material": "linbo3_tc",
+  "electrode_material": "cu",
+  "layers": [
+   {
+    "material_id": "sio2",
+    "thickness_um": 0.72144,
+    "euler_phi_deg": 0.0,
+    "euler_theta_deg": 0.0,
+    "euler_psi_deg": 0.0
+   },
+   {
+    "material_id": "sin",
+    "thickness_um": 0.04,
+    "euler_phi_deg": 0.0,
+    "euler_theta_deg": 0.0,
+    "euler_psi_deg": 0.0
+   }
+  ],
+  "euler_convention": "zxz",
+  "euler_phi_deg": 0.0,
+  "euler_theta_deg": 0.0,
+  "euler_psi_deg": 0.0,
+  "aperture_um": null,
+  "pitch_um": 0.9968,
+  "electrode_um": 0.16633,
+  "substrate_um": 15.9488,
+  "metal_ratio": 0.46,
+  "mesh_um": 0.1,
+  "start_ghz": 1.6,
+  "stop_ghz": 2.0,
+  "points": 201,
+  "voltage": 1.0
+ },
+ "test_points": 5,
+ "test_indices": [
+  0,
+  50,
+  100,
+  150,
+  200
+ ],
+ "reference_fmax_hz": null,
+ "reference_rtol": 0.01500513172518684,
+ "regression_rtol": 0.002,
+ "compare_raw_slice_admittance": false,
+ "source": "saw_web_sp production comparison 2026-09-11, job dc16fc8c83f14add98ee0861b7ac1b15"
+}
