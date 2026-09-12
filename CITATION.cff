@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, cite the concept DOI (all versions) or the Zenodo record of the version you used."
+type: software
+title: "DuanSAW: An open-source solver for surface acoustic wave simulation"
+abstract: >
+  Piezoelectric coupled finite-element solver for the frequency-domain simulation of
+  Surface Acoustic Wave (SAW) resonator unit cells. Version 2 is the Python package
+  `sawsim`: Q9 (2D) and Hex27 (2.5D periodic slice) elements, Bloch periodic boundaries,
+  complex-coordinate-stretched PML, intrinsic ZXZ Euler rotation of anisotropic crystals,
+  Gmsh meshing, PARDISO/SuperLU direct solves with frequency-parallel Y11 sweeps, and
+  point-by-point verification against an independent reference FEM solution.
+  Versions 0.x are the MATLAB + Gmsh implementation.
+authors:
+  - family-names: Duan
+    given-names: Shaoqing
+repository-code: "https://github.com/Duane245/DuanSAW"
+url: "https://sawsim.com"
+license: AGPL-3.0-or-later
+version: "2.0.0"
+date-released: "2026-09-12"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20362278"
+    description: "Concept DOI (all versions)"
+  - type: doi
+    value: "10.5281/zenodo.20635934"
+    description: "Version DOI for v0.4.0 (MATLAB)"
+keywords:
+  - SAW
+  - surface-acoustic-wave
+  - piezoelectric
+  - finite-element
+  - PML
+  - Python
+  - Gmsh
