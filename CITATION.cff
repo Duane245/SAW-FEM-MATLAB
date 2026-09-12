@@ -25,6 +25,9 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.20635934"
     description: "Version DOI for v0.4.0 (MATLAB)"
+  - type: doi
+    value: "10.5281/zenodo.22728471"
+    description: "Version DOI for v2.0.0 (Python package sawsim)"
 keywords:
   - SAW
   - surface-acoustic-wave
