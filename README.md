@@ -12,7 +12,7 @@ Piezoelectric coupled FEM for SAW resonator unit cells · Q9 / Hex27 · PML · B
 ![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-blue)
 
-**DuanSAW** 是项目与引用名；**sawsim** 是 Python 包名、命令名与在线服务 [sawsim.com](https://sawsim.com)。
+**DuanSAW** 是项目与引用名；**sawsim** 是 Python 包名与命令名；在线服务 sawsim.com 即将开放。
 
 </div>
 

@@ -14,7 +14,7 @@ authors:
   - family-names: Duan
     given-names: Shaoqing
 repository-code: "https://github.com/Duane245/DuanSAW"
-url: "https://sawsim.com"
+url: "https://github.com/Duane245/DuanSAW"
 license: AGPL-3.0-or-later
 version: "2.0.0"
 date-released: "2026-09-12"
